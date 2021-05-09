@@ -1,0 +1,10 @@
+function angle = VectorAgl(pointM,point1,point2)
+    pointM = pointM/180*pi;
+    point1 = point1/180*pi;
+    point2 = point2/180*pi;
+	ptM  = [cos(pointM(1))*cos(pointM(2)) cos(pointM(2))*sin(pointM(1)) sin(pointM(2))];
+	pt1  = [cos(point1(1))*cos(point1(2)) cos(point1(2))*sin(point1(1)) sin(point1(2))];
+	pt2  = [cos(point2(1))*cos(point2(2)) cos(point2(2))*sin(point2(1)) sin(point2(2))];
+	vector1 = [pt1(1) - ptM(1),pt1(2)-ptM(2),pt1(3)-ptM(3)];
+	vector2 = [pt2(1) - ptM(1),pt2(2)-ptM(2),pt2(3)-ptM(3)];
+	angle   = atan2d(norm(cross(vector1,vector2)), dot(vector1,vector2));

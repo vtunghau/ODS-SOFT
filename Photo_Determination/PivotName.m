@@ -1,0 +1,19 @@
+function Pair = PivotName(Data,Pair,ac_er_ang, ac_er_dis,i,j,k)
+    [dis1,dis2,agl] = StarPair(Data,i,j,k);
+    %Elimination by angle 
+    aglmin    = agl - ac_er_ang;
+    aglmax    = agl + ac_er_ang;
+    Pair(:,7) = (Pair(:,6)>aglmin)&(Pair(:,6)<aglmax);
+    Pair      =  Pair(Pair(:,7)>0,:);
+    %Elimination by distance ratio
+    dis_s1    = dis1/dis2;
+    dis_s2    = dis2/dis1;
+    dis_s     =    [dis_s1*(1-ac_er_dis);...
+                dis_s1*(1+ac_er_dis);...
+                dis_s2*(1-ac_er_dis);...
+                dis_s2*(1+ac_er_dis)];
+    Pair(:,7) =     (dis_s(1)<(Pair(:,4)./Pair(:,5)))+...
+                    (dis_s(2)>(Pair(:,4)./Pair(:,5)))+...
+                    (dis_s(3)<(Pair(:,5)./Pair(:,4)))+...
+                    (dis_s(4)>(Pair(:,5)./Pair(:,4)));
+    Pair = Pair(Pair(:,7) == 4,:);

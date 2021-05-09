@@ -1,0 +1,9 @@
+function out = gauss2d(size,c)
+a = c*130;
+mid  = round(size/2);
+t = 1:size;
+z = 1:size;
+y = (exp(-(t - mid).^2/(2*c^2)));
+T = y';
+T = T*y;
+out = T*(a/T(mid,mid));
