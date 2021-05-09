@@ -1,4 +1,5 @@
 function [outdata, Ps] = gen_img(Azel_Data,DT1,DT2,app)
+% comment nè, anh xem ???c ch?a :v 
     addpath     ..\Photo_Determination\
     load(strcat(app.sao_dir.Value,'\SAODATA.mat'));
     FOV                 = app.fov.Value;
