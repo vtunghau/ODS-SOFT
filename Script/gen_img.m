@@ -120,7 +120,45 @@ function [outdata, Ps] = gen_img(Azel_Data,DT1,DT2,app)
 %     imshow(uint8(out))
     
     noise = imnoise(uint8(out),'gaussian');
-
+% Distortion 
+    k1 = 0.5
+    k2 = 0.1
+    k3 = 0.08
+    
+    r = @(x) sqrt(x(:,1).^2 + x(:,2).^2);
+    w = @(x) k1.*r(x) + k2.*r(x).^2 + k3.*r(x).^3 + 1;
+    f = @(x) [w(x).*x(:,1), w(x).*x(:,2)];
+    g = @(x, unused) f(x);
+    tform3 = maketform('custom', 2, 2, [], g, []);
+    ImgR = imtransform(ImgR, tform3,'UData', [-1 1], 'VData', [-1 1],...
+        'XData', [-1 1], 'YData', [-1 1]);
+    ImgB = imtransform(ImgB, tform3,'UData', [-1 1], 'VData', [-1 1],...
+        'XData', [-1 1], 'YData', [-1 1]);
+    ImgG = imtransform(ImgG, tform3,'UData', [-1 1], 'VData', [-1 1],...
+        'XData', [-1 1], 'YData', [-1 1]);
+    
+% %vignetting  
+%     [r1,c1] = size(ImgR);
+%     imR = imresize(ImgR,[4096,4096]);
+%     pupilDiametter = 60;
+%     focalLength = 85;
+%     %microlensthickness = 3;
+%     alphamax = atan(0.5*pupilDiametter/focalLength);
+%     [u,v] = meshgrid(linspace(-alphamax, alphamax,size(imR,1)),linspace(-alphamax,alphamax,size(imR,2)));
+%     v = abs(v);
+%     u = abs(u);
+%     effectivePupilArea = zeros([4096,4096]);
+%     for j = 1:size(imR,1)
+%         for k = 1:size(imR,1)
+%             currentAngle = sqrt(u(j,k)^2 +v(j,k)^2);
+%             efectivePupilArea(i,j) = 1 - 3*tan(currentAngle);
+%         end
+%     end
+%     
+% %     noise = uint8(zeros(hozpixel,verpixel));
+%     ImgR = imresize(ImgR,[4096,4096]);
+%     ImgG = imresize(ImgR,[4096,4096]);
+%     ImgB = imresize(ImgR,[4096,4096]);
 %     noise = uint8(zeros(hozpixel,verpixel));
     Im(:,:,1) = uint8(ImgR) + noise;
     Im(:,:,2) = uint8(ImgG) + noise;
