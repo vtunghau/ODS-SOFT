@@ -119,7 +119,7 @@ function [outdata, Ps] = gen_img(Azel_Data,DT1,DT2,app)
 %     figure
 %     imshow(uint8(out))
     
-    noise = imnoise(uint8(out),'gaussian');
+    %noise = imnoise(uint8(out),'gaussian');
 % Distortion 
     k1 = 0.5
     k2 = 0.1
@@ -160,9 +160,9 @@ function [outdata, Ps] = gen_img(Azel_Data,DT1,DT2,app)
 %     ImgG = imresize(ImgR,[4096,4096]);
 %     ImgB = imresize(ImgR,[4096,4096]);
 %     noise = uint8(zeros(hozpixel,verpixel));
-    Im(:,:,1) = uint8(ImgR) + noise;
-    Im(:,:,2) = uint8(ImgG) + noise;
-    Im(:,:,3) = uint8(ImgB) + noise;
+    Im(:,:,1) = uint8(ImgR);
+    Im(:,:,2) = uint8(ImgG);
+    Im(:,:,3) = uint8(ImgB);
 %     figure
 %     imshow(Im)
    
